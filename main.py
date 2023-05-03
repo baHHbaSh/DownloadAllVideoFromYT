@@ -10,11 +10,14 @@ def clean():
 def DownloadVideo(id = "o5wC0QqqN1c"):
     try:
         print("Инициализация нового видео")
-        yt = YouTube('https://www.youtube.com/watch?v='+id)
+        yt = YouTube('https://www.youtube.com/watch?v='+id, use_oauth=True, allow_oauth_cache=True)
         yt.streams.filter(file_extension='mp4')
         stream = yt.streams.get_by_resolution("720p")
         stream.download()
-    except: print(format_exc())
+    except:
+        print(format_exc())
+        try: DownloadVideo(id)
+        except: pass
     PB.value += 1
 
 class ProgressBar():
